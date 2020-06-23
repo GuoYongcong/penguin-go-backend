@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ryzin.penguin.admin.dao.FunExpMapper">
+
+  <resultMap id="BaseResultMap" type="com.ryzin.penguin.admin.model.FunExp">
+	<id column="id" jdbcType="BIGINT" property="id" />
+	<result column="name" jdbcType="VARCHAR" property="name" />
+	<result column="status" jdbcType="TINYINT" property="status" />
+	<result column="types" jdbcType="VARCHAR" property="types" />
+	<result column="payment" jdbcType="VARCHAR" property="payment" />
+	<result column="contact" jdbcType="VARCHAR" property="contact" />
+	<result column="people_num" jdbcType="INTEGER" property="peopleNum" />
+	<result column="location" jdbcType="VARCHAR" property="location" />
+	<result column="content" jdbcType="VARCHAR" property="content" />
+	<result column="time" jdbcType="VARCHAR" property="time" />
+	<result column="duration" jdbcType="INTEGER" property="duration" />
+	<result column="requirements" jdbcType="VARCHAR" property="requirements" />
+	<result column="preferences" jdbcType="VARCHAR" property="preferences" />
+	<result column="questionnaire_id" jdbcType="VARCHAR" property="questionnaireId" />
+	<result column="file_list" jdbcType="VARCHAR" property="fileList" />
+	<result column="note" jdbcType="VARCHAR" property="note" />
+	<result column="create_by" jdbcType="VARCHAR" property="createBy" />
+	<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	<result column="last_update_by" jdbcType="VARCHAR" property="lastUpdateBy" />
+	<result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+  </resultMap>
+  
+  <insert id="insert" parameterType="com.ryzin.penguin.admin.model.FunExp">
+  	insert into fun_exp (id, name, status, 
+ 	  types, payment, contact,
+ 	  people_num, location, content,
+ 	  time, duration, requirements,
+ 	  preferences, questionnaire_id, file_list, note,
+      create_by, create_time, last_update_by, last_update_time)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},
+       #{types,jdbcType=VARCHAR}, #{payment, jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, 
+       #{peopleNum,jdbcType=INTEGER}, #{location,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+       #{time,jdbcType=VARCHAR}, #{duration,jdbcType=INTEGER}, #{requirements,jdbcType=VARCHAR}, 
+       #{preferences,jdbcType=VARCHAR}, #{questionnaireId,jdbcType=VARCHAR}, #{fileList,jdbcType=VARCHAR},
+       #{note,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+       #{lastUpdateBy,jdbcType=VARCHAR}, #{lastUpdateTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <delete id="delete" parameterType="java.lang.Long">
+    delete from fun_exp
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <update id="update" parameterType="com.ryzin.penguin.admin.model.FunExp">
+    update fun_exp
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="types != null">
+        types = #{types,jdbcType=VARCHAR},
+      </if>
+      <if test="payment != null">
+        payment = #{payment,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null">
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="peopleNum != null">
+        people_num = #{peopleNum,jdbcType=INTEGER},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null">
+        duration = #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="requirements != null">
+        requirements = #{requirements,jdbcType=VARCHAR},
+      </if>
+      <if test="preferences != null">
+        preferences = #{preferences,jdbcType=VARCHAR},
+      </if>
+      <if test="questionnaireId != null">
+        questionnaire_id = #{questionnaireId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileList != null">
+        file_list = #{fileList,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from fun_exp
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findPageBySubjectUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from fun_exp
+    where id in 
+    (select exp_id from fun_exp_user where user_id = #{user_id, jdbcType=BIGINT})
+  </select>
+  
+  <select id="findPageBySubjectUserIdAndExpName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	<bind name="patternUserId" value="'%' + _parameter.userId + '%'" />
+  	<bind name="patternExpName" value="'%' + _parameter.expName + '%'" />
+  	select * from 
+  	(select * from fun_exp
+    where id in 
+    (select exp_id from fun_exp_user where user_id = #{patternUserId}))
+    where name like #{patternExpName}
+  </select>
+  
+  <select id="findPageByExperimenterUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from fun_exp
+    where id in 
+    (select exp_id from fun_user_exp where user_id = #{userId, jdbcType=BIGINT})
+  </select>
+  
+  <select id="findPageByExperimenterUserIdAndExpName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	<bind name="patternUserId" value="'%' + _parameter.userId + '%'" />
+  	<bind name="patternExpName" value="'%' + _parameter.expName + '%'" />
+  	select * from 
+  	(select * from fun_exp
+    where id in 
+    (select exp_id from fun_user_exp where user_id = #{patternUserId}))
+    where name like #{patternExpName}
+  </select>
+
+  <select id="findPage" resultMap="BaseResultMap">
+    select * from fun_exp
+  </select>
+  
+  <select id="findPageByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <bind name="pattern" value="'%' + _parameter.name + '%'" />
+    select * from fun_exp
+    where name like #{pattern}
+  </select>
+
+  <select id="findPageByStatus" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <bind name="pattern" value="'%' + _parameter.status + '%'" />
+    select * from fun_exp
+    where status like #{pattern}
+  </select>
+  
+  <select id="getLastExpId" resultType="java.lang.Long">
+    select id from fun_exp
+    order by id
+    desc limit 0,1
+  </select>
+</mapper>

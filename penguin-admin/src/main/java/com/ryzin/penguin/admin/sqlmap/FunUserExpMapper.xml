@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ryzin.penguin.admin.dao.FunUserExpMapper">
+
+  <resultMap id="BaseResultMap" type="com.ryzin.penguin.admin.model.FunUserExp">
+	<id column="id" jdbcType="BIGINT" property="id" />
+	<result column="user_id" jdbcType="BIGINT" property="userId" />
+	<result column="exp_id" jdbcType="BIGINT" property="expId" />
+	<result column="create_by" jdbcType="VARCHAR" property="createBy" />
+	<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	<result column="last_update_by" jdbcType="VARCHAR" property="lastUpdateBy" />
+	<result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+  </resultMap>
+  
+  <insert id="insert" parameterType="com.ryzin.penguin.admin.model.FunUserExp">
+    insert into fun_user_exp
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="expId != null">
+        exp_id,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastUpdateBy != null">
+        last_update_by,
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="expId != null">
+        #{expId,jdbcType=BIGINT},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        #{lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null">
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="delete" parameterType="java.lang.Long">
+    delete from fun_user_exp
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <update id="update" parameterType="com.ryzin.penguin.admin.model.FunUserExp">
+    update fun_user_exp
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="expId != null">
+        exp_id = #{expId,jdbcType=BIGINT},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from fun_user_exp
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from fun_user_exp
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findByExpId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from fun_user_exp
+    where exp_id = #{expId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findPage" resultMap="BaseResultMap">
+    select * from fun_user_exp
+  </select>
+  
+  <delete id="deleteByUserName" parameterType="java.lang.Long">
+    delete from fun_user_exp
+    where create_by = #{userName,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByExpId" parameterType="java.lang.Long">
+    delete from fun_user_exp
+    where exp_id = #{expId,jdbcType=BIGINT}
+  </delete>
+</mapper>

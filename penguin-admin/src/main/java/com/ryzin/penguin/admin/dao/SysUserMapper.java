@@ -23,7 +23,11 @@ public interface SysUserMapper {
     
     SysUser findByName(@Param(value="name") String name);
     
+    long getIdByName(String name);
+    
     List<SysUser> findPageByName(@Param(value="name") String name);
     
     List<SysUser> findPageByNameAndEmail(@Param(value="name") String name, @Param(value="email") String email);
+
+    List<SysUser> findExpUsersPageByExpId(@Param(value="expId") Long expId);
 }

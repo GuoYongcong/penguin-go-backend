@@ -26,5 +26,13 @@ public interface SysUserService extends CurdService<SysUser> {
 	 * @param userName
 	 * @return
 	 */
-	List<SysUserRole> findUserRoles(Long userId);
+	List<SysUserRole> findUserRoles(Long userId);	
+	
+	/**
+	 * 查找用户的基本信息不含密码等敏感信息
+	 * @param userName
+	 * @return
+	 */
+	SysUser getInfoByName(String username);
+
 }

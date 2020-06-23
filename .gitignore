@@ -11,3 +11,7 @@ penguin-producer2/.project
 penguin-producer2/.classpath
 penguin-config/.project
 penguin-config/.classpath
+*.class
+*.class
+*.original
+*.class

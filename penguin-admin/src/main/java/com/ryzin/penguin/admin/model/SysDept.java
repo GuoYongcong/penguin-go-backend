@@ -16,7 +16,7 @@ public class SysDept extends BaseModel{
     private String parentName;
     // 非数据库字段
     private Integer level;
- // 非数据库字段
+    // 非数据库字段
     private List<SysDept> children;
     
 	public String getParentName() {

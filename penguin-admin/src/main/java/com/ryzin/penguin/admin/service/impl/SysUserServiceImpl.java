@@ -89,6 +89,36 @@ public class SysUserServiceImpl implements SysUserService {
 		return sysUserMapper.findByName(name);
 	}
 	
+	/**
+	 * 	获取用户基本信息
+	 * @param name
+	 * @return
+	 */
+	@Override
+	public SysUser getInfoByName(String name) {
+		SysUser userInfo = sysUserMapper.findByName(name);
+		userInfo.setPassword(null);
+		userInfo.setSalt(null);
+		userInfo.setLastUpdateBy(null);
+		userInfo.setLastUpdateTime(null);
+		userInfo.setStatus(null);
+		userInfo.setCreateBy(null);
+		userInfo.setCreateTime(null);
+		//通过id查询用户角色
+		long userId = sysUserMapper.getIdByName(name);
+		List<SysUserRole> roles = sysUserRoleMapper.findUserRoles(userId);
+		StringBuilder roleName = new StringBuilder();
+		userInfo.setUserRoles(roles);
+		for (SysUserRole role : roles) {
+			long roleId = role.getRoleId();
+			roleName.append( sysRoleMapper.selectByPrimaryKey(roleId).getRemark()+" ");
+		
+		}
+		userInfo.setRoleNames(roleName.toString());
+		return userInfo;
+	}
+	
+	
 	@Override
 	public PageResult findPage(PageRequest pageRequest) {
 		PageResult pageResult = null;

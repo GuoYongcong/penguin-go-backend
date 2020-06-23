@@ -26,4 +26,5 @@ public interface SysRoleMapper {
 	List<SysRole> findPageByName(@Param(value="name") String name);
 	
 	List<SysRole> findByName(@Param(value="name") String name);
+	
 }

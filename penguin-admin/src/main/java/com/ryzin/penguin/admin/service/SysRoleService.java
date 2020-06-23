@@ -36,4 +36,5 @@ public interface SysRoleService extends CurdService<SysRole> {
 	 * @return
 	 */
 	List<SysRole> findByName(String name);
+	
 }

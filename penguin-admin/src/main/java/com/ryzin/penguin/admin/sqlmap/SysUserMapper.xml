@@ -185,11 +185,25 @@
       del_flag = #{delFlag,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <update id="updateMobileByName" parameterType="java.lang.String">
+  	update sys_user
+  	set mobile = #{mobile, jdbcType=VARCHAR}
+  	where name = #{name, jdbcType=VARCHAR}
+  </update>
+   <update id="updateEmailByName" parameterType="java.lang.String">
+  	update sys_user
+  	set email = #{email, jdbcType=VARCHAR}
+  	where name = #{name, jdbcType=VARCHAR}
+  </update>
   <select id="findPage" resultMap="BaseResultMap">
   	select u.*, (select d.name from sys_dept d where d.id = u.dept_id) deptName from sys_user u
   </select>
   <select id="findByName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select u.*, (select d.name from sys_dept d where d.id = u.dept_id) deptName from sys_user u
+    where u.name = #{name,jdbcType=VARCHAR}
+  </select>
+  <select id="getIdByName" parameterType="java.lang.String" resultType="java.lang.Long">
+    select id from sys_user u
     where u.name = #{name,jdbcType=VARCHAR}
   </select>
   <select id="findPageByName" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -203,5 +217,16 @@
     select u.*, (select d.name from sys_dept d where d.id = u.dept_id) deptName from sys_user u
     where u.name like #{patternName}
     and u.email like #{patternEmail}
+  </select>
+  <select id="findExpUsersPageByExpId" parameterType="java.lang.Long" resultMap="BaseResultMap">   
+    select t.id , s.name, s.email, s.mobile, t.create_time, t.status
+    from 
+    sys_user as s
+    inner join
+    (select * 
+    from 
+    fun_exp_user 
+    where exp_id = #{expId, jdbcType=BIGINT}) as t
+    on s.id = t.user_id
   </select>
 </mapper>
